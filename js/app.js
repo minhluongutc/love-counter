@@ -209,8 +209,41 @@
   });
 
   /* =================================================================
-     7. GỬI TIN NHẮN QUA TELEGRAM
+     7. GỬI TIN NHẮN / TÂM TRẠNG QUA TELEGRAM
   ================================================================= */
+  // Hàm dùng chung: gửi {from, text} tới Telegram (qua Worker hoặc trực tiếp)
+  async function sendTelegram(from, text) {
+    const tg = CONFIG.telegram || {};
+    const useWorker = !!tg.workerUrl;
+    if (!useWorker && (!tg.botToken || !tg.chatId)) {
+      return { ok: false, error: "Chưa cấu hình gửi tin (workerUrl) trong js/config.js." };
+    }
+    let endpoint, payload;
+    if (useWorker) {
+      endpoint = tg.workerUrl;
+      payload = { from, text };
+    } else {
+      const message =
+        "💌 Tin nhắn mới từ trang web tình yêu\n──────────────\n" +
+        "Từ: " + (from || "Người bí ẩn 🥰") + "\n\n" + text + "\n\n" +
+        "🕒 " + new Date().toLocaleString("vi-VN");
+      endpoint = `https://api.telegram.org/bot${tg.botToken}/sendMessage`;
+      payload = { chat_id: tg.chatId, text: message };
+    }
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      return data.ok ? { ok: true } : { ok: false, error: data.error || data.description || "Gửi thất bại" };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    }
+  }
+
+  // --- Form lời nhắn ---
   $("#msg-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const from = $("#msg-from").value.trim();
@@ -219,58 +252,73 @@
     const btn = $("#msg-send");
     if (!text) return;
 
-    const tg = CONFIG.telegram || {};
-    const useWorker = !!tg.workerUrl;
-    if (!useWorker && (!tg.botToken || !tg.chatId)) {
-      status.className = "msg-status err";
-      status.textContent = "⚠️ Chưa cấu hình gửi tin. Hãy điền workerUrl (khuyên dùng) trong js/config.js.";
-      return;
-    }
-
     status.className = "msg-status loading";
     status.textContent = "Đang gửi... 💌";
     btn.disabled = true;
 
-    // Cách AN TOÀN: gửi qua Cloudflare Worker (token nằm phía Worker).
-    // Cách cũ: gọi thẳng Telegram (chỉ để chạy thử ở máy, sẽ lộ token).
-    let endpoint, payload;
-    if (useWorker) {
-      endpoint = tg.workerUrl;
-      payload = { from, text };
+    const result = await sendTelegram(from, text);
+    if (result.ok) {
+      status.className = "msg-status ok";
+      status.textContent = "✅ Anh đã nhận được tin nhắn ạaaa 💕";
+      $("#msg-text").value = "";
+      burstConfetti();
+      spawnHearts(window.innerWidth / 2, window.innerHeight / 2, 10);
     } else {
-      const message =
-        "💌 Tin nhắn mới từ trang web tình yêu\n" +
-        "──────────────\n" +
-        "Từ: " + (from || "Người bí ẩn 🥰") + "\n\n" +
-        text + "\n\n" +
-        "🕒 " + new Date().toLocaleString("vi-VN");
-      endpoint = `https://api.telegram.org/bot${tg.botToken}/sendMessage`;
-      payload = { chat_id: tg.chatId, text: message };
+      status.className = "msg-status err";
+      status.textContent = "Đợi tí anh sửa nha 💗";
     }
+    btn.disabled = false;
+  });
 
-    try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+  // --- Tâm trạng hôm nay (5 mức) ---
+  const moodOptions = $("#mood-options");
+  if (moodOptions) {
+    const moodSend = $("#mood-send");
+    const moodStatus = $("#mood-status");
+    let selectedMood = null;
+
+    moodOptions.querySelectorAll(".mood-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        moodOptions.querySelectorAll(".mood-btn").forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        selectedMood = {
+          level: btn.dataset.level,
+          label: btn.dataset.label,
+          emoji: btn.querySelector(".mood-emoji").textContent,
+        };
+        moodSend.disabled = false;
+        const r = btn.getBoundingClientRect();
+        spawnHearts(r.left + r.width / 2, r.top + r.height / 2, 4);
       });
-      const data = await res.json();
-      if (data.ok) {
-        status.className = "msg-status ok";
-        status.textContent = "✅ Đã gửi thành công! Kiểm tra Telegram nhé 💕";
-        $("#msg-text").value = "";
+    });
+
+    moodSend.addEventListener("click", async () => {
+      if (!selectedMood) return;
+      const note = $("#mood-note").value.trim();
+      const who = (CONFIG.girl && (CONFIG.girl.nickname || CONFIG.girl.name)) || "Em";
+
+      moodStatus.className = "mood-status loading";
+      moodStatus.textContent = "Đang gửi... 💌";
+      moodSend.disabled = true;
+
+      const text =
+        "🌈 Tâm trạng hôm nay: " + selectedMood.label + " " + selectedMood.emoji +
+        " (mức " + selectedMood.level + "/5)" + (note ? "\n📝 " + note : "");
+
+      const result = await sendTelegram(who, text);
+      if (result.ok) {
+        moodStatus.className = "mood-status ok";
+        moodStatus.textContent = "✅ Đã gửi cho anh rồi nha 💕";
+        $("#mood-note").value = "";
         burstConfetti();
         spawnHearts(window.innerWidth / 2, window.innerHeight / 2, 10);
       } else {
-        throw new Error(data.error || data.description || "Gửi thất bại");
+        moodStatus.className = "mood-status err";
+        moodStatus.textContent = "Đợi tí anh sửa nha 💗";
       }
-    } catch (err) {
-      status.className = "msg-status err";
-      status.textContent = "❌ Lỗi: " + err.message + ". Kiểm tra lại token/chat id giúp mình nha.";
-    } finally {
-      btn.disabled = false;
-    }
-  });
+      moodSend.disabled = false;
+    });
+  }
 
   /* =================================================================
      7b. TIMELINE CHUYỆN TÌNH
