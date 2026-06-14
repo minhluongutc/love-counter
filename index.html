@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nga 💗 Lượng — Chuyện tình của chúng mình</title>
+  <meta name="description" content="Đếm từng ngày yêu thương của Nga & Lượng" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💗</text></svg>" />
+</head>
+<body>
+
+  <!-- Lớp hiệu ứng nền (tim bay, cánh hoa) -->
+  <div id="hearts-bg" aria-hidden="true"></div>
+  <canvas id="petals" aria-hidden="true"></canvas>
+
+  <!-- Nút nhạc -->
+  <button id="music-toggle" class="music-toggle" title="Bật / tắt nhạc" aria-label="Bật tắt nhạc">🎵</button>
+
+  <!-- =================== INTRO / HERO =================== -->
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Chào mừng đến với chuyện tình của</p>
+      <h1 class="hero-title">
+        <span class="name-girl">Nga</span>
+        <span class="amp">&amp;</span>
+        <span class="name-boy">Lượng</span>
+      </h1>
+      <p class="hero-sub" id="typewriter"></p>
+
+      <!-- Khối đếm chính -->
+      <div class="counter-card glass">
+        <p class="counter-label">Chúng mình đã yêu nhau được</p>
+        <div class="big-days">
+          <span id="total-days">0</span>
+          <span class="big-days-unit">ngày</span>
+        </div>
+        <div class="timer" id="timer">
+          <div class="timer-box"><span id="t-days">0</span><small>ngày</small></div>
+          <div class="timer-box"><span id="t-hours">0</span><small>giờ</small></div>
+          <div class="timer-box"><span id="t-mins">0</span><small>phút</small></div>
+          <div class="timer-box"><span id="t-secs">0</span><small>giây</small></div>
+        </div>
+        <p class="counter-start">Bắt đầu từ <strong>30 / 11 / 2024</strong> 💞</p>
+      </div>
+
+      <a href="#story" class="scroll-cue">Kéo xuống nhé <span>↓</span></a>
+    </div>
+  </header>
+
+  <!-- =================== AVATAR HAI NGƯỜI =================== -->
+  <section class="people" id="people">
+    <div class="person" data-person="girl">
+      <div class="avatar-frame">
+        <div class="avatar" id="avatar-girl"><span class="avatar-placeholder">📷<br/>Ảnh Nga</span></div>
+      </div>
+      <h3 class="person-name" id="girl-name">Nguyễn Thanh Nga</h3>
+      <p class="person-meta">🎂 25/02/2002 · <span id="girl-age"></span></p>
+      <p class="person-bd" id="girl-bd-countdown"></p>
+    </div>
+
+    <div class="heart-link">
+      <div class="pulse-heart">❤️</div>
+    </div>
+
+    <div class="person" data-person="boy">
+      <div class="avatar-frame">
+        <div class="avatar" id="avatar-boy"><span class="avatar-placeholder">📷<br/>Ảnh Lượng</span></div>
+      </div>
+      <h3 class="person-name" id="boy-name">Nguyễn Minh Lượng</h3>
+      <p class="person-meta">🎂 30/11/2002 · <span id="boy-age"></span></p>
+      <p class="person-bd" id="boy-bd-countdown"></p>
+    </div>
+  </section>
+
+  <!-- =================== TIMELINE CHUYỆN TÌNH =================== -->
+  <section class="section" id="timeline">
+    <h2 class="section-title">Chuyện tình của chúng mình</h2>
+    <p class="section-sub">Từng chương trong câu chuyện của hai đứa 📖</p>
+    <div class="timeline" id="timeline-list"></div>
+  </section>
+
+  <!-- =================== CỘT MỐC / KỶ NIỆM =================== -->
+  <section class="section" id="story">
+    <h2 class="section-title">Những cột mốc yêu thương</h2>
+    <p class="section-sub">Mỗi con số là một chặng đường mình đã đi cùng nhau 🌷</p>
+
+    <div class="milestone-next glass" id="milestone-next"></div>
+
+    <div class="milestones" id="milestones"></div>
+  </section>
+
+  <!-- =================== LOVE METER =================== -->
+  <section class="section center" id="lovemeter">
+    <h2 class="section-title">Máy đo độ yêu 💘</h2>
+    <p class="section-sub">Bấm nút xem hôm nay hai đứa yêu nhau bao nhiêu phần trăm nào!</p>
+    <div class="lovemeter-wrap glass">
+      <div class="lovemeter-track"><div class="lovemeter-fill" id="lovemeter-fill"></div></div>
+      <div class="lovemeter-value" id="lovemeter-value">?? %</div>
+      <button class="btn btn-primary" id="lovemeter-btn">Đo ngay! 💓</button>
+    </div>
+  </section>
+
+  <!-- =================== ALBUM ẢNH =================== -->
+  <section class="section" id="gallery">
+    <h2 class="section-title">Album của chúng mình</h2>
+    <p class="section-sub">Lưu giữ những khoảnh khắc đáng yêu 📸</p>
+    <div id="gallery-grid" class="gallery-grid"></div>
+    <p class="gallery-hint" id="gallery-hint"></p>
+  </section>
+
+  <!-- =================== THƯ TÌNH (PHONG BÌ) =================== -->
+  <section class="section center" id="letter">
+    <h2 class="section-title">Thư tình gửi em</h2>
+    <p class="section-sub">Bấm vào phong bì để mở thư nhé 💌</p>
+
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Mở thư tình">
+      <div class="env-letter" id="env-letter">
+        <span class="env-letter-peek">💗 Thư cho em 💗</span>
+      </div>
+      <div class="env-front"></div>
+      <div class="env-flap"></div>
+      <div class="env-seal" id="env-seal">💗</div>
+    </div>
+    <p class="env-hint" id="env-hint">Nhấn để mở 💌</p>
+  </section>
+
+  <!-- Lightbox xem thư đầy đủ -->
+  <div class="letter-modal" id="letter-modal" hidden>
+    <div class="lm-inner glass">
+      <button class="lm-close" id="lm-close" aria-label="Đóng">✕</button>
+      <div class="lm-body" id="lm-body"></div>
+      <div class="lm-nav" id="lm-nav"></div>
+    </div>
+  </div>
+
+  <!-- =================== LỜI YÊU NGẪU NHIÊN =================== -->
+  <section class="section center" id="quote">
+    <h2 class="section-title">Hộp lời yêu thương</h2>
+    <p class="section-sub">Bấm vào trái tim để nhận một lời ngọt ngào nhé 🍬</p>
+    <button class="quote-heart" id="quote-btn" aria-label="Nhận lời yêu">💝</button>
+    <p class="quote-text" id="quote-text">Bấm vào đây nè...</p>
+  </section>
+
+  <!-- =================== EM CÓ YÊU ANH KHÔNG? =================== -->
+  <section class="section center" id="loveq">
+    <div class="loveq-card glass" id="loveq-card">
+      <div class="loveq-emoji" id="loveq-emoji">🥺</div>
+      <h2 class="section-title" id="loveq-title">Em có yêu anh không?</h2>
+      <div class="loveq-btns" id="loveq-btns">
+        <button class="btn btn-primary" id="btn-yes">Có chứ 💖</button>
+        <button class="btn btn-no" id="btn-no">Không 😜</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== GỬI TIN NHẮN (TELEGRAM) =================== -->
+  <section class="section" id="message">
+    <h2 class="section-title">Gửi lời nhắn cho nhau</h2>
+    <p class="section-sub">Viết điều muốn nói, tin nhắn sẽ bay thẳng tới Telegram 💌</p>
+
+    <form class="msg-form glass" id="msg-form">
+      <label>
+        <span>Từ ai?</span>
+        <input type="text" id="msg-from" placeholder="Ví dụ: Nga / Lượng" autocomplete="off" />
+      </label>
+      <label>
+        <span>Lời nhắn</span>
+        <textarea id="msg-text" rows="4" placeholder="Viết gì đó thật dễ thương..." required></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary" id="msg-send">Gửi đi 💖</button>
+      <p class="msg-status" id="msg-status"></p>
+    </form>
+  </section>
+
+  <!-- =================== FOOTER =================== -->
+  <footer class="footer">
+    <div class="pulse-heart big">💗</div>
+    <p>Made with love · <span class="name-girl">Nga</span> &amp; <span class="name-boy">Lượng</span></p>
+    <p class="footer-sub">30/11/2024 — mãi mãi về sau ♾️</p>
+    <a href="#top" class="back-top">↑ Lên đầu trang</a>
+  </footer>
+
+  <!-- =================== MODAL NGÀY ĐẶC BIỆT =================== -->
+  <div class="special-modal" id="special-modal" hidden>
+    <canvas id="fireworks"></canvas>
+    <div class="special-card glass">
+      <div class="special-emoji" id="special-emoji">🎉</div>
+      <h2 class="special-title" id="special-title">Chúc mừng!</h2>
+      <p class="special-text" id="special-text"></p>
+      <button class="btn btn-primary" id="special-close">Yêu em 💖</button>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
