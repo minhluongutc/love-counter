@@ -50,7 +50,7 @@ const CONFIG = {
   telegram: {
     // ✅ CÁCH AN TOÀN: dán URL Worker của bạn vào đây
     // ví dụ: "https://love-telegram.tenban.workers.dev"
-    workerUrl: "",
+    workerUrl: "https://love-telegram.ngminhluong30.workers.dev/",
 
     /* ⚠️ (Không khuyến nghị) Cách cũ gọi thẳng Telegram — token SẼ BỊ LỘ
        khi host public. Token/chatId đã được chuyển sang Cloudflare nên để trống. */
@@ -69,10 +69,9 @@ const CONFIG = {
     "Cảm ơn em vì đã xuất hiện trong cuộc đời anh 💕",
     "Dù bao lâu đi nữa, anh vẫn chọn em 💍",
     "Em cứ là em, anh sẽ yêu cả những điều nhỏ nhặt nhất 🐻",
-    "Trái tim anh chỉ có một chỗ, và nó dành cho Nga 💞",
+    "Trái tim anh chỉ có một chỗ, và nó dành cho em 💞",
     "Hẹn em ở tất cả những mùa yêu sau nữa nhé 🍂",
     "Yêu em hôm qua, hôm nay và mãi mãi ♾️",
-    "Em là nhà của anh đó, Nga à 🏠❤️",
   ],
 
   /* ---- NHỮNG LÝ DO ANH YÊU EM (chạy chữ tự động) ---- */
@@ -109,7 +108,7 @@ Lượng ❤️`,
      Mỗi mốc gồm: ngày (date), tiêu đề (title), mô tả (desc), ảnh (photo).
      Cứ thêm / sửa thoải mái cho đúng kỷ niệm của hai đứa. */
   timeline: [
-   {date: "2024-09-27", title: "Tạm biệt học viện, Xin chào Thanh Nga", desc: "", photo: "https://drive.google.com/file/d/1blSuHQRxTIBIVSGnWeclTCIWPX7LKANj/view?usp=share_link"},
+   {date: "2024-09-27", title: "Tạm biệt học viện, Xin chào Thanh Nga", desc: "", photo: "https://drive.google.com/file/d/18jR4CI2T0KbzN_iIqWeYzqfIl6e4LPlM/view?usp=share_link"},
     { date: "2024-10-05", title: "Lần hẹn hò đầu tiên ☕", desc: "", photo: "https://drive.google.com/file/d/19M4l9EmAX7SAijJnSUHuwqiPreV0_5l1/view?usp=share_link" },
     { date: "2024-11-30", title: "Ngày đầu yêu nhau 💑", desc: "Em nhận lời yêuuuuuu 💗", photo: "https://drive.google.com/file/d/1blSuHQRxTIBIVSGnWeclTCIWPX7LKANj/view?usp=share_link" },
    //  { date: "",           title: "Chuyến đi đầu tiên ✈️", desc: "Cùng nhau đi đâu, làm gì...", photo: "" },
