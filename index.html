@@ -160,19 +160,38 @@
     </div>
   </section>
 
+  <!-- =================== HÔM NAY CỦA EM THẾ NÀO =================== -->
+  <section class="section center" id="mood">
+    <h2 class="section-title">Hôm nay của em thế nào?</h2>
+    <p class="section-sub">Chọn tâm trạng hôm nay, anh sẽ nhận được ngay 💌</p>
+
+    <div class="mood-card glass">
+      <div class="mood-options" id="mood-options">
+        <button class="mood-btn" data-level="1" data-label="Tệ lắm"><span class="mood-emoji">😢</span><span class="mood-label">Tệ lắm</span></button>
+        <button class="mood-btn" data-level="2" data-label="Hơi buồn"><span class="mood-emoji">😔</span><span class="mood-label">Hơi buồn</span></button>
+        <button class="mood-btn" data-level="3" data-label="Bình thường"><span class="mood-emoji">😐</span><span class="mood-label">Bình thường</span></button>
+        <button class="mood-btn" data-level="4" data-label="Vui"><span class="mood-emoji">😊</span><span class="mood-label">Vui</span></button>
+        <button class="mood-btn" data-level="5" data-label="Tuyệt vời"><span class="mood-emoji">🥰</span><span class="mood-label">Tuyệt vời</span></button>
+      </div>
+      <textarea id="mood-note" class="mood-note" rows="2" placeholder="Kể thêm cho anh nghe nhé..."></textarea>
+      <button class="btn btn-primary" id="mood-send" disabled>Gửi tâm trạng 💌</button>
+      <p class="mood-status" id="mood-status"></p>
+    </div>
+  </section>
+
   <!-- =================== GỬI TIN NHẮN (TELEGRAM) =================== -->
   <section class="section" id="message">
-    <h2 class="section-title">Gửi lời nhắn cho nhau</h2>
-    <p class="section-sub">Viết điều muốn nói, tin nhắn sẽ bay thẳng tới Telegram 💌</p>
+    <h2 class="section-title">Gửi lời nhắn cho anh</h2>
+    <p class="section-sub">Viết điều muốn nói, tin nhắn sẽ bay thẳng tới Anh 💌</p>
 
     <form class="msg-form glass" id="msg-form">
       <label>
         <span>Từ ai?</span>
-        <input type="text" id="msg-from" placeholder="Ví dụ: Nga / Lượng" autocomplete="off" />
+        <input type="text" id="msg-from" placeholder="Ví dụ: Nga Xinh / Nga Xinh Nhất" autocomplete="off" />
       </label>
       <label>
         <span>Lời nhắn</span>
-        <textarea id="msg-text" rows="4" placeholder="Viết gì đó thật dễ thương..." required></textarea>
+        <textarea id="msg-text" rows="4" placeholder="Viết gì đó cho anh nghe nhé..." required></textarea>
       </label>
       <button type="submit" class="btn btn-primary" id="msg-send">Gửi đi 💖</button>
       <p class="msg-status" id="msg-status"></p>

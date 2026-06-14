@@ -22,11 +22,16 @@ Bạn cần 2 thứ này:
 
 ## 2. Tạo Worker
 1. Menu trái chọn **Workers & Pages**.
-2. Bấm **Create application** → **Create Worker** (hoặc "Start with Hello World").
-3. Đặt tên, ví dụ `love-telegram`.
+2. Bấm **Create application** → **Create Worker**.
+3. ⚠️ Ở bước **"Select a method"**: chọn **"Start with Hello World"**
+   (hoặc "Start from scratch" / "Hello World").
+   **KHÔNG chọn "Import a repository" / kết nối GitHub** — đường đó dành cho
+   repo đã là dự án Worker, sẽ báo lỗi với repo trang web tĩnh của bạn.
+   (Nếu lỡ chọn nhầm: bấm **Back** quay về "Select a method" rồi chọn lại.)
+4. Đặt tên, ví dụ `love-telegram`.
    → Tên này tạo ra URL dạng `https://love-telegram.<tên-bạn>.workers.dev`
    (lần đầu Cloudflare sẽ cho bạn chọn `<tên-bạn>` — đặt gì cũng được).
-4. Bấm **Deploy** để tạo (lúc này là code mẫu mặc định).
+5. Bấm **Deploy** để tạo (lúc này là code mẫu mặc định).
 
 ## 3. Dán code Worker
 1. Sau khi Deploy, bấm **Edit code** (hoặc **Continue to project** → **Edit code**).
